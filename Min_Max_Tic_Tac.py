@@ -1,3 +1,8 @@
+import sys
+
+sys.setrecursionlimit(2000)
+
+
 class grid:
 	def __init__(self):
 	    self.data = [[0,0,0],[0,0,0],[0,0,0]]
@@ -75,10 +80,6 @@ class grid:
 			return 'X'
 
 	def auto(self,player, depth=0):
-		if player == "X": 
-			best = -10
-		else:
-			best = 10
 		if self.finish() :
 			if self.check_win("X") :
 				return -10 + depth, None
@@ -91,19 +92,18 @@ class grid:
 			save = self.data [X][Y]
 			self.move(X,Y, player)
 			opposite = self.getenemy(player)
-			val, X1, Y1= self.auto(self,opposite, depth+1)
+			self.print_grid()
+			val, _= self.auto(opposite, depth+1)
 			print(val)
 			self.move(X,Y, save)
-			if player == "o" :
-				if val > best :
-					best = val
-			else :
-				if val < best :
-					best = val
-		return best, X1,Y1
+			self.move(X,Y, save)
+		return val, movecord
+
 
 	def Terminator(self):
-		best,X,Y = self.auto("o",5)
+		best,move2 = self.auto("o",5)
+		X,Y = move2[0],move2[1]
+		print(best,X,Y)
 		self.move(X,Y,"o")
 		print("I'll Be Back")
 
@@ -117,10 +117,10 @@ if __name__ == "__main__":
 		Grid_Now.print_grid()
 		print("Cordinates for X")
 		print("X axis")
-		cordxx=int(input())
+		cordxy=int(input())
 		print("Y axis")
-		cordxy=int(input())	
-		Grid_Now.move(cordxx,cordxy)
+		cordxx=int(input())	
+		Grid_Now.move(cordxy,cordxx)
 		Grid_Now.print_grid()
 		if Grid_Now.human:
 			print("Cordinates for o")
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 			cordxx=int(input())
 			print("Y axis")
 			cordxy=int(input())	
-			Grid_Now.move(cordxx,cordxy,"o")
+			Grid_Now.move(cordxy,cordxx,"o")
 			Grid_Now.print_grid()
 		else:
 			Grid_Now.Terminator()
