@@ -1,15 +1,51 @@
 
-class Sentiment:
-	def __init__(self,input_text):
-		self.text = input_text
 
-	def break_it_down(self):
-		new_text = []
-		for word in self.text:
-			print word
-	
+class Sentiment:
+	def __init__(self):
+		# self.text = input_text
+		self.dictionary={}
+
+
+	# def break_it_down(self,own_text):
+	# 	self.text=own_text
+	# 	new_text = []
+	# 	words = []
+	# 	character = []
+	# 	for sentence in self.text:
+	# 		for word in sentence:
+	# 			if (word == '.' or word == '!' or word == '?'):
+	# 				p =''.join(character)
+	# 				words.append(p)
+	# 				character=[]
+	# 				new_text.append([words])
+	# 				words = []
+	# 			elif (word.isalpha()):
+	# 				character.append(word)
+	# 			elif (word == ' '):
+	# 				p =''.join(character)
+	# 				words.append(p)
+	# 				character=[]
+	# 	self.text = new_text
+
+	def break_it_down(self,own_text):
+		print hi
+
+
+	@property
+	def dict(self):
+		return self.dictionary 
+
+	@dict.setter
+	def dict(self,d1,d2):
+		self.dictionary[d1] = d2
+
 	def print_data(self):
-		print self.text
+		for i in self.dictionary:
+			print i , '\n'
+
+	def trainning(self):
+		new_text = []
+		print self.text.strip("\r\n").split('.,')
 
 
 
@@ -22,11 +58,14 @@ class Sentiment:
 
 
 if __name__ == "__main__":
-	own_text_bool=input("Input your own text? True or False")
-	if own_text_bool:
-		own_text=input("Input the text message that has been bothering you for decates.") #This will make a great APP for WHAT DID SHE/HE MEAN BY THIS TEXT?!
-		data=Sentiment(own_text)
-	else:
-		Sample_Text=open("Sample_Text",r)
-		data=Sentiment(Sample_Text)
-		data.break_it_down()
+	Sample_Text=open("Sample_Text.csv",'r')
+	data = Sentiment()
+	for i in Sample_Text:
+		a = i.strip("\r\n")
+		a = a.split(",")
+		data.dict[a[0]] = a[1]
+	# data.trainning()
+	data.print_data()
+	# own_text=input("Input the text message that has been bothering you for decates.") #This will make a great APP for WHAT DID SHE/HE MEAN BY THIS TEXT?!
+
+
