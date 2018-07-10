@@ -6,7 +6,6 @@ class Sentiment:
 		self.dictionary={}
 		self.dataset = []
 		self.trainning()
-		self.dataset = []
 
 	# def break_it_down(self,own_text):
 	# 	self.text=own_text
