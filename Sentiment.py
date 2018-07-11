@@ -1,5 +1,4 @@
 
-
 class Sentiment:
 	def __init__(self,input_text):
 		self.text = input_text
@@ -49,6 +48,7 @@ class Sentiment:
 
 	def give_words_value(self,number=3):
 		for i in self.dictionary:
+			b=1
 			a=i.split(" ")
 			remove=[]
 			for j in a:
@@ -56,7 +56,13 @@ class Sentiment:
 					remove.append(j)
 			for x in remove:
 				a.remove(x)
-			self.dataset.append((a,self.dictionary[i]))
+			if (a[-1][-1]=="?"):   #if the sentence is a question mark then it will be scale?!?!?!?!?!?!
+				b=1.039
+			elif ( a[-1][-1]=="!"):#if the sentence is a explantation mark then it will be scales less than 3x !!!!!!!!!!
+				b=1.097
+			a[-1]=a[-1][:-1]
+			a = [x.lower() for x in a]
+			self.dataset.append((a,int(self.dictionary[i])*b))
 		self.print_data("dataset")
 
 
@@ -67,9 +73,24 @@ class Sentiment:
 		self.give_words_value()
 
 	def break_it_down(self,own_text):
-		print "What is the text that you wish for me to interpret?"
-
-
+		score=0
+		b=1
+		data_analysis=own_text.split(' ')
+		if (data_analysis[-1][-1]=="?"):   #if the sentence is a question mark then it will be scale?!?!?!?!?!?!
+			b=1.039
+		elif (data_analysis[-1][-1]=="!"):#if the sentence is a explantation mark then it will be scales less than 3x !!!!!!!!!!
+			b=1.097
+		for i in self.dataset:
+			for x in i[0]:
+				if x in data_analysis:
+					score+=b*i[1]
+		if (score>0):
+			print "Positive Message: She/He/It might be into you!"
+		elif (score<0):
+			print "Negative Message: Probably should stay away before she/he/it gets a restraining order"
+		else:
+			print "Can not determine data base on the dataset available :("
+	
 	@property
 	def dict(self):
 		return self.dictionary
@@ -83,6 +104,7 @@ class Sentiment:
 if __name__ == "__main__":
 	Sample_Text=open("Sample_Text.csv",'r')
 	data = Sentiment(Sample_Text)
-	# own_text=input("Input the text message that has been bothering you for decates.") #This will make a great APP for WHAT DID SHE/HE MEAN BY THIS TEXT?!
-
+	own_text = raw_input("Input the text message that has been bothering you for decades:\n") #This will make a great APP for WHAT DID SHE/HE MEAN BY THIS TEXT?!
+	data.break_it_down(own_text)
+	Sample_Text.close()
 
